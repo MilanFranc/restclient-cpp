@@ -323,6 +323,17 @@ RestClient::Connection::SetProxy(const std::string& uriProxy) {
 }
 
 /**
+ * @brief set HTTP noproxy option
+ *
+ * @param noProxyUrl
+ *
+ */
+void
+RestClient::Connection::SetNoProxy(const std::string& noProxyUrl) {
+  this->uriNoProxy = noProxyUrl;
+}
+
+/**
  * @brief set custom Unix socket path for connection.
  * See https://curl.haxx.se/libcurl/c/CURLOPT_UNIX_SOCKET_PATH.html
  *
@@ -378,7 +389,7 @@ RestClient::Connection::performCurlRequest(const std::string& uri) {
  *
  * @param uri URI to query
  * @param ret Reference to the response struct that should be filled
- * 
+ *
  * @return reference to response struct for chaining
  */
 RestClient::Response*
@@ -509,6 +520,12 @@ RestClient::Connection::performCurlRequest(const std::string& uri,
                      1L);
   }
 
+  // set noproxy option
+  if (!this->uriNoProxy.empty()) {
+    curl_easy_setopt(getCurlHandle(), CURLOPT_NOPROXY,
+                     uriNoProxy.c_str());
+  }
+
   // set Unix socket path, if requested
   if (!this->unixSocketPath.empty()) {
     curl_easy_setopt(getCurlHandle(), CURLOPT_UNIX_SOCKET_PATH,
@@ -571,7 +588,7 @@ RestClient::Connection::get(const std::string& url) {
  *
  * @param url to query
  * @param response struct
- * 
+ *
  * @return response struct ref for chaining
  */
 RestClient::Response*

@@ -202,6 +202,9 @@ class Connection {
     // set CURLOPT_PROXY
     void SetProxy(const std::string& uriProxy);
 
+    // set CURLOPT_NOPROXY
+    void SetNoProxy(const std::string& noProxyUrl);
+
     // set CURLOPT_UNIX_SOCKET_PATH
     void SetUnixSocketPath(const std::string& unixSocketPath);
 
@@ -263,6 +266,7 @@ class Connection {
     std::string keyPassword;
     bool verifyPeer;
     std::string uriProxy;
+    std::string uriNoProxy;
     std::string unixSocketPath;
     char curlErrorBuf[CURL_ERROR_SIZE];
     RestClient::WriteCallback writeCallback;
