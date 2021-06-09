@@ -59,12 +59,17 @@ list(APPEND restclient-cpp_PUBLIC_HEADERS
   include/restclient-cpp/connection.h
   include/restclient-cpp/helpers.h
 )
+
+file(COPY include/restclient-cpp/restclient.h
+	  include/restclient-cpp/connection.h
+          include/restclient-cpp/helpers.h
+  DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include/restclient-cpp/ )
+
 # target_sources(restclient-cpp PRIVATE ${restclient-cpp_PUBLIC_HEADERS})
 set_property(TARGET restclient-cpp PROPERTY
   PUBLIC_HEADER ${restclient-cpp_PUBLIC_HEADERS})
 target_include_directories(restclient-cpp
     PRIVATE include    
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
 )
 
